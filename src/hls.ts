@@ -452,8 +452,8 @@ export default class Hls implements HlsEventEmitter {
   resumeBuffering() {
     if (this.started) {
       this.networkControllers.forEach((controller) => {
-        if ('fragmentLoader' in controller) {
-          controller.startLoad(-1);
+        if ('streaming' in controller) {
+          controller.streaming = true;
         }
       });
     }
@@ -465,8 +465,8 @@ export default class Hls implements HlsEventEmitter {
    */
   pauseBuffering() {
     this.networkControllers.forEach((controller) => {
-      if ('fragmentLoader' in controller) {
-        controller.stopLoad();
+      if ('streaming' in controller) {
+        controller.streaming = false;
       }
     });
   }

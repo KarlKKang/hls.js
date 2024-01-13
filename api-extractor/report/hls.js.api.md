@@ -498,6 +498,8 @@ export class BaseStreamController extends TaskLoop implements NetworkComponentAP
     // (undocumented)
     protected _streamEnded(bufferInfo: BufferInfo, levelDetails: LevelDetails): boolean;
     // (undocumented)
+    protected streaming: boolean;
+    // (undocumented)
     protected synchronizeToLiveEdge(levelDetails: LevelDetails): void;
     // Warning: (ae-forgotten-export) The symbol "TransmuxerInterface" needs to be exported by the entry point hls.d.ts
     //
@@ -3137,6 +3139,7 @@ export type StreamControllerConfig = {
     maxMaxBufferLength: number;
     startFragPrefetch: boolean;
     testBandwidth: boolean;
+    mmsMinBufferLength: number;
 };
 
 // Warning: (ae-missing-release-tag) "SubtitleFragProcessedData" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)

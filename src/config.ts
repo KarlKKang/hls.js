@@ -221,6 +221,7 @@ export type StreamControllerConfig = {
   maxMaxBufferLength: number;
   startFragPrefetch: boolean;
   testBandwidth: boolean;
+  mmsMinBufferLength: number;
 };
 
 export type SelectionPreferences = {
@@ -345,6 +346,7 @@ export const hlsDefaultConfig: HlsConfig = {
   maxBufferLength: 30, // used by stream-controller
   backBufferLength: Infinity, // used by buffer-controller
   frontBufferFlushThreshold: Infinity,
+  mmsMinBufferLength: 0,
   maxBufferSize: 60 * 1000 * 1000, // used by stream-controller
   maxBufferHole: 0.1, // used by stream-controller
   highBufferWatchdogPeriod: 2, // used by stream-controller
@@ -587,6 +589,17 @@ export function mergeConfig(
   ) {
     throw new Error(
       'Illegal hls.js config: "liveMaxLatencyDuration" must be greater than "liveSyncDuration"',
+    );
+  }
+
+  if (
+    userConfig.mmsMinBufferLength !== undefined &&
+    userConfig.mmsMinBufferLength >
+      (userConfig.maxBufferLength ?? defaultConfig.maxBufferLength)
+  ) {
+    userConfig.maxBufferLength = userConfig.mmsMinBufferLength;
+    logger.warn(
+      'hls.js config: "mmsMinBufferLength" must be less than or equal to "maxBufferLength", setting "maxBufferLength" to "mmsMinBufferLength"',
     );
   }
 

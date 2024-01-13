@@ -29,6 +29,7 @@ See [API Reference](https://hlsjs-dev.video-dev.org/api-docs/) for a complete li
   - [`maxBufferLength`](#maxbufferlength)
   - [`backBufferLength`](#backbufferlength)
   - [`frontBufferFlushThreshold`](#frontbufferflushthreshold)
+  - [`mmsMinBufferLength`](#mmsminbufferlength)
   - [`maxBufferSize`](#maxbuffersize)
   - [`maxBufferHole`](#maxbufferhole)
   - [`maxStarvationDelay`](#maxstarvationdelay)
@@ -385,6 +386,7 @@ var config = {
   maxMaxBufferLength: 600,
   backBufferLength: Infinity,
   frontBufferFlushThreshold: Infinity,
+  mmsMinBufferLength: 0,
   maxBufferSize: 60 * 1000 * 1000,
   maxBufferHole: 0.5,
   highBufferWatchdogPeriod: 2,
@@ -560,6 +562,12 @@ The maximum duration of buffered media to keep once it has been played, in secon
 (default: `Infinity`)
 
 The maximum duration of buffered media, in seconds, from the play position to keep before evicting non-contiguous forward ranges. A value of `Infinity` means no active eviction will take place; This value will always be at least the `maxBufferLength`.
+
+### `mmsMinBufferLength`
+
+(default: `0` seconds)
+
+The minimum buffer length in seconds to maintain in the buffer before following the `streaming` hint from the ManagedMediaSource API. This value should be less than or equal to `maxBufferLength`.
 
 ### `maxBufferSize`
 

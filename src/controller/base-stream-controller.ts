@@ -99,6 +99,7 @@ export default class BaseStreamController
   protected initPTS: RationalTimestamp[] = [];
   protected onvseeking: EventListener | null = null;
   protected onvended: EventListener | null = null;
+  protected streaming: boolean = true;
 
   private readonly logPrefix: string = '';
   protected log: (msg: any) => void;
@@ -1004,14 +1005,14 @@ export default class BaseStreamController
 
   protected getMaxBufferLength(levelBitrate?: number): number {
     const { config } = this;
-    let maxBufLen;
+    let maxBufLen = this.streaming
+      ? config.maxBufferLength
+      : config.mmsMinBufferLength;
     if (levelBitrate) {
       maxBufLen = Math.max(
         (8 * config.maxBufferSize) / levelBitrate,
-        config.maxBufferLength,
+        maxBufLen,
       );
-    } else {
-      maxBufLen = config.maxBufferLength;
     }
     return Math.min(maxBufLen, config.maxMaxBufferLength);
   }
