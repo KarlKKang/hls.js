@@ -498,7 +498,7 @@ export class BaseStreamController extends TaskLoop implements NetworkComponentAP
     // (undocumented)
     protected _streamEnded(bufferInfo: BufferInfo, levelDetails: LevelDetails): boolean;
     // (undocumented)
-    protected streaming: boolean;
+    streaming: boolean;
     // (undocumented)
     protected synchronizeToLiveEdge(levelDetails: LevelDetails): void;
     // Warning: (ae-forgotten-export) The symbol "TransmuxerInterface" needs to be exported by the entry point hls.d.ts

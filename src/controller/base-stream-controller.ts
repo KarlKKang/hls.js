@@ -99,7 +99,7 @@ export default class BaseStreamController
   protected initPTS: RationalTimestamp[] = [];
   protected onvseeking: EventListener | null = null;
   protected onvended: EventListener | null = null;
-  protected streaming: boolean = true;
+  public streaming: boolean = true;
 
   private readonly logPrefix: string = '';
   protected log: (msg: any) => void;
