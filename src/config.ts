@@ -219,6 +219,7 @@ export type StreamControllerConfig = {
   nudgeMaxRetry: number;
   maxFragLookUpTolerance: number;
   maxMaxBufferLength: number;
+  minMaxBufferLength: number;
   startFragPrefetch: boolean;
   testBandwidth: boolean;
   mmsMinBufferLength: number;
@@ -364,6 +365,7 @@ export const hlsDefaultConfig: HlsConfig = {
    */
   liveBackBufferLength: null, // used by buffer-controller
   maxMaxBufferLength: 600, // used by stream-controller
+  minMaxBufferLength: 0, // used by stream-controller
   enableWorker: true, // used by transmuxer
   workerPath: null, // used by transmuxer
   enableSoftwareAES: true, // used by decrypter

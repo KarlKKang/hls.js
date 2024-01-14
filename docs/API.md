@@ -40,6 +40,7 @@ See [API Reference](https://hlsjs-dev.video-dev.org/api-docs/) for a complete li
   - [`nudgeMaxRetry`](#nudgemaxretry)
   - [`maxFragLookUpTolerance`](#maxfraglookuptolerance)
   - [`maxMaxBufferLength`](#maxmaxbufferlength)
+  - [`minMaxBufferLength`](#minmaxbufferlength)
   - [`liveSyncDurationCount`](#livesyncdurationcount)
   - [`liveMaxLatencyDurationCount`](#livemaxlatencydurationcount)
   - [`liveSyncDuration`](#livesyncduration)
@@ -384,6 +385,7 @@ var config = {
   initialLiveManifestSize: 1,
   maxBufferLength: 30,
   maxMaxBufferLength: 600,
+  minMaxBufferLength: 0,
   backBufferLength: Infinity,
   frontBufferFlushThreshold: Infinity,
   mmsMinBufferLength: 0,
@@ -659,6 +661,12 @@ this is to mimic the browser behaviour (the buffer eviction algorithm is startin
 
 `maxBufferLength` is the minimum guaranteed buffer length that hls.js will try to achieve, even if that value exceeds the amount of bytes 60 MB of memory.
 `maxMaxBufferLength` acts as a capping value, as if bitrate is really low, you could need more than one hour of buffer to fill 60 MB.
+
+### `minMaxBufferLength`
+
+(default 0s)
+
+When `BUFFER_FULL_ERROR` is raised, hls.js will try to reduce `maxMaxBufferLength` in half, until reaching `minMaxBufferLength` seconds, then `maxMaxBufferLength` will be capped to this value.
 
 ### `liveSyncDurationCount`
 
