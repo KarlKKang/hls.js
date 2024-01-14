@@ -226,6 +226,7 @@ export default class BaseStreamController
     }
     this.media = this.mediaBuffer = null;
     this.loadedmetadata = false;
+    this.streaming = true;
     this.fragmentTracker.removeAllFragments();
     this.stopLoad();
   }
