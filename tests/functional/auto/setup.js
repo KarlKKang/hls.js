@@ -330,10 +330,16 @@ async function testSeekOnVOD(url, config) {
           });
         }
       };
-      video.onended = function () {
-        console.log('[test] > video  "ended"');
-        callback({ code: 'ended', logs: self.logString });
-      };
+      self.hls.on(self.Hls.Events.MEDIA_ENDED, function (eventName, data) {
+        console.log(
+          '[test] > video  "ended"' + data.stalled ? ' (stalled near end)' : ''
+        );
+        callback({
+          code: 'ended',
+          stalled: data.stalled,
+          logs: self.logString,
+        });
+      });
 
       video.oncanplaythrough = video.onwaiting = function (e) {
         console.log(
@@ -658,11 +664,7 @@ describe(`testing hls.js playback in the browser on "${browserDescription}"`, fu
         );
       }
 
-      if (
-        stream.abr &&
-        !HlsjsLightBuild &&
-        (!isSafari || !isStreamsWithOverlappingAppends)
-      ) {
+      if (stream.abr && (!isSafari || !isStreamsWithOverlappingAppends)) {
         it(
           `should "smooth switch" to highest level and still play after 2s for ${stream.description}`,
           testSmoothSwitch.bind(null, url, config)

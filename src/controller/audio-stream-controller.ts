@@ -71,30 +71,27 @@ class AudioStreamController
       hls,
       fragmentTracker,
       keyLoader,
-      '[audio-stream-controller]',
+      'audio-stream-controller',
       PlaylistLevelType.AUDIO,
     );
-    this._registerListeners();
+    this.registerListeners();
   }
 
   protected onHandlerDestroying() {
-    this._unregisterListeners();
+    this.unregisterListeners();
     super.onHandlerDestroying();
     this.mainDetails = null;
     this.bufferedTrack = null;
     this.switchingTrack = null;
   }
 
-  private _registerListeners() {
+  protected registerListeners() {
+    super.registerListeners();
     const { hls } = this;
-    hls.on(Events.MEDIA_ATTACHED, this.onMediaAttached, this);
-    hls.on(Events.MEDIA_DETACHING, this.onMediaDetaching, this);
-    hls.on(Events.MANIFEST_LOADING, this.onManifestLoading, this);
     hls.on(Events.LEVEL_LOADED, this.onLevelLoaded, this);
     hls.on(Events.AUDIO_TRACKS_UPDATED, this.onAudioTracksUpdated, this);
     hls.on(Events.AUDIO_TRACK_SWITCHING, this.onAudioTrackSwitching, this);
     hls.on(Events.AUDIO_TRACK_LOADED, this.onAudioTrackLoaded, this);
-    hls.on(Events.ERROR, this.onError, this);
     hls.on(Events.BUFFER_RESET, this.onBufferReset, this);
     hls.on(Events.BUFFER_CREATED, this.onBufferCreated, this);
     hls.on(Events.BUFFER_FLUSHING, this.onBufferFlushing, this);
@@ -103,16 +100,16 @@ class AudioStreamController
     hls.on(Events.FRAG_BUFFERED, this.onFragBuffered, this);
   }
 
-  private _unregisterListeners() {
+  protected unregisterListeners() {
     const { hls } = this;
-    hls.off(Events.MEDIA_ATTACHED, this.onMediaAttached, this);
-    hls.off(Events.MEDIA_DETACHING, this.onMediaDetaching, this);
-    hls.off(Events.MANIFEST_LOADING, this.onManifestLoading, this);
+    if (!hls) {
+      return;
+    }
+    super.unregisterListeners();
     hls.off(Events.LEVEL_LOADED, this.onLevelLoaded, this);
     hls.off(Events.AUDIO_TRACKS_UPDATED, this.onAudioTracksUpdated, this);
     hls.off(Events.AUDIO_TRACK_SWITCHING, this.onAudioTrackSwitching, this);
     hls.off(Events.AUDIO_TRACK_LOADED, this.onAudioTrackLoaded, this);
-    hls.off(Events.ERROR, this.onError, this);
     hls.off(Events.BUFFER_RESET, this.onBufferReset, this);
     hls.off(Events.BUFFER_CREATED, this.onBufferCreated, this);
     hls.off(Events.BUFFER_FLUSHING, this.onBufferFlushing, this);
@@ -281,9 +278,10 @@ class AudioStreamController
     const { hls, levels, media, trackId } = this;
     const config = hls.config;
 
-    // 1. if video not attached AND
+    // 1. if buffering is suspended
+    // 2. if video not attached AND
     //    start fragment already requested OR start frag prefetch not enabled
-    // 2. if tracks or track not loaded and selected
+    // 3. if tracks or track not loaded and selected
     // then exit loop
     // => if media not attached but start frag prefetch is enabled and start frag not requested yet, we will not exit loop
     if (
@@ -555,7 +553,7 @@ class AudioStreamController
 
     // compute start position if we are aligned with the main playlist
     if (!this.startFragRequested && (this.mainDetails || !newDetails.live)) {
-      this.setStartPosition(track.details, sliding);
+      this.setStartPosition(this.mainDetails || newDetails, sliding);
     }
     // only switch back to IDLE state if we were waiting for track to start downloading a new fragment
     if (
@@ -713,7 +711,7 @@ class AudioStreamController
     this.fragBufferedComplete(frag, part);
   }
 
-  private onError(event: Events.ERROR, data: ErrorData) {
+  protected onError(event: Events.ERROR, data: ErrorData) {
     if (data.fatal) {
       this.state = State.ERROR;
       return;
