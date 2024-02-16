@@ -595,17 +595,6 @@ export function mergeConfig(
     );
   }
 
-  if (
-    userConfig.mmsMinBufferLength !== undefined &&
-    userConfig.mmsMinBufferLength >
-      (userConfig.maxBufferLength ?? defaultConfig.maxBufferLength)
-  ) {
-    userConfig.maxBufferLength = userConfig.mmsMinBufferLength;
-    logger.warn(
-      'hls.js config: "mmsMinBufferLength" must be less than or equal to "maxBufferLength", setting "maxBufferLength" to "mmsMinBufferLength"',
-    );
-  }
-
   const defaultsCopy = deepCpy(defaultConfig);
 
   // Backwards compatibility with deprecated config values
