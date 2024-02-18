@@ -1131,13 +1131,13 @@ export default class BaseStreamController
   protected reduceMaxBufferLength(threshold: number) {
     const config = this.config;
     const maxMaxBufferLength = config.maxMaxBufferLength;
-    const minLength = Math.max(
-      threshold || config.maxBufferLength,
-      config.minMaxBufferLength,
-    );
-    if (maxMaxBufferLength > minLength) {
+    const minLength = threshold || config.maxBufferLength;
+    if (maxMaxBufferLength >= minLength) {
       // reduce max buffer length as it might be too high. we do this to avoid loop flushing ...
-      config.maxMaxBufferLength = Math.max(maxMaxBufferLength / 2, minLength);
+      config.maxMaxBufferLength = Math.max(
+        maxMaxBufferLength / 2,
+        config.minMaxBufferLength,
+      );
       this.warn(`Reduce max buffer length to ${config.maxMaxBufferLength}s`);
       return true;
     }
