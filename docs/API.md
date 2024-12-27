@@ -27,6 +27,7 @@ See [API Reference](https://hlsjs-dev.video-dev.org/api-docs/) for a complete li
   - [`defaultAudioCodec`](#defaultaudiocodec)
   - [`initialLiveManifestSize`](#initiallivemanifestsize)
   - [`maxBufferLength`](#maxbufferlength)
+  - [`mmsMinBufferLength`](#mmsminbufferlength)
   - [`backBufferLength`](#backbufferlength)
   - [`frontBufferFlushThreshold`](#frontbufferflushthreshold)
   - [`maxBufferSize`](#maxbuffersize)
@@ -383,6 +384,7 @@ var config = {
   defaultAudioCodec: undefined,
   initialLiveManifestSize: 1,
   maxBufferLength: 30,
+  mmsMinBufferLength: 0,
   maxMaxBufferLength: 600,
   minMaxBufferLength: 0,
   backBufferLength: Infinity,
@@ -550,6 +552,12 @@ number of segments needed to start a playback of Live stream. Buffering will beg
 
 Maximum buffer length in seconds. If buffer length is/become less than this value, a new fragment will be loaded.
 This is the guaranteed buffer length hls.js will try to reach, regardless of maxBufferSize.
+
+### `mmsMinBufferLength`
+
+(default: `0` seconds)
+
+The minimum buffer length in seconds to maintain in the buffer before following the `streaming` hint from the ManagedMediaSource API. This value should be less than or equal to `maxBufferLength`.
 
 ### `backBufferLength`
 

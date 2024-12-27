@@ -262,9 +262,6 @@ export default class StreamController
       this.state = State.ENDED;
       return;
     }
-    if (!this.buffering) {
-      return;
-    }
 
     // set next load level : this will trigger a playlist load if needed
     if (hls.loadLevel !== level && hls.manualLevel === -1) {

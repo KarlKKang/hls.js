@@ -212,6 +212,7 @@ export type StreamControllerConfig = {
   defaultAudioCodec?: string;
   initialLiveManifestSize: number;
   maxBufferLength: number;
+  mmsMinBufferLength: number;
   maxBufferSize: number;
   maxBufferHole: number;
   highBufferWatchdogPeriod: number;
@@ -344,6 +345,7 @@ export const hlsDefaultConfig: HlsConfig = {
   preferManagedMediaSource: true,
   initialLiveManifestSize: 1, // used by stream-controller
   maxBufferLength: 30, // used by stream-controller
+  mmsMinBufferLength: 0, // used by stream-controller
   backBufferLength: Infinity, // used by buffer-controller
   frontBufferFlushThreshold: Infinity,
   maxBufferSize: 60 * 1000 * 1000, // used by stream-controller

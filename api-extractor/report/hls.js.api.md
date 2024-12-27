@@ -3138,6 +3138,7 @@ export type StreamControllerConfig = {
     defaultAudioCodec?: string;
     initialLiveManifestSize: number;
     maxBufferLength: number;
+    mmsMinBufferLength: number;
     maxBufferSize: number;
     maxBufferHole: number;
     highBufferWatchdogPeriod: number;

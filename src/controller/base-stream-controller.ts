@@ -1023,14 +1023,15 @@ export default class BaseStreamController
 
   protected getMaxBufferLength(levelBitrate?: number): number {
     const { config } = this;
-    let maxBufLen;
+    let maxBufLen = config.maxBufferLength;
     if (levelBitrate) {
       maxBufLen = Math.max(
         (8 * config.maxBufferSize) / levelBitrate,
-        config.maxBufferLength,
+        maxBufLen,
       );
-    } else {
-      maxBufLen = config.maxBufferLength;
+    }
+    if (!this.buffering) {
+      maxBufLen = Math.min(maxBufLen, config.mmsMinBufferLength);
     }
     return Math.min(maxBufLen, config.maxMaxBufferLength);
   }
