@@ -1040,6 +1040,7 @@ export default class BaseStreamController
     const minLength = Math.max(
       Math.min(threshold - fragDuration, config.maxBufferLength),
       fragDuration,
+      config.minMaxBufferLength,
     );
     const reducedLength = Math.max(
       threshold - fragDuration * 3,

@@ -3145,6 +3145,7 @@ export type StreamControllerConfig = {
     nudgeMaxRetry: number;
     maxFragLookUpTolerance: number;
     maxMaxBufferLength: number;
+    minMaxBufferLength: number;
     startFragPrefetch: boolean;
     testBandwidth: boolean;
 };
